@@ -1,0 +1,17 @@
+_*/
+CMakeUserPresets.json
+.env
+/.vscode/c_cpp_properties.json
+/.vscode/tasks.json
+/.vscode/launch.json
+/.clangd
+.pytest_cache
+__pycache__/
+/_*
+
+# the ROM library: commercial cartridges nobody may redistribute, put here
+# (or symlinked here) by whoever runs the examples
+/roms
+.DS_Store
+._*
+*.whl

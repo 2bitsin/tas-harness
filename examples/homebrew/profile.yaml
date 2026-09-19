@@ -1,0 +1,21 @@
+# The ROM CI runs: vendored beside this file, licence and provenance in
+# README.md.
+name: zsenilia
+core: genesis_plus_gx
+rom: examples/homebrew/zsenilia.bin
+system_dir: ""
+save_dir: ""
+ports:
+  - joypad
+  - none
+
+# Genesis Plus GX keeps work ram byte-swapped, so a 68000 word reads back
+# little-endian here. The demo counts its own frames at this address;
+# README.md has the hunt that found it.
+watches:
+  - name: beat
+    region: system
+    address: "0x068e"
+    width: 2
+    endian: little
+    is_signed: false

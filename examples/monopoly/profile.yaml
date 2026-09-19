@@ -1,0 +1,104 @@
+# roms/ is the machine's own cartridge library; the zip is never written
+# to, session/rom-file extracts it into the run's scratch directory.
+name: monopoly
+core: genesis_plus_gx
+rom: roms/Genesis/Monopoly (USA).zip
+system_dir: ""
+save_dir: ""
+ports:
+  - joypad
+  - none
+
+# Genesis Plus GX keeps work ram byte-swapped: region offset R is 68000
+# address R xor 1. A player record is 28 bytes from 0x84de; the deed table
+# is 4 bytes a board square from 0x85dc. examples/monopoly/README.md has
+# the hunt that found these.
+watches:
+  - name: p1_square
+    region: system
+    address: "0x84de"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: p1_cash
+    region: system
+    address: "0x84e4"
+    width: 4
+    endian: little
+    is_signed: false
+  - name: p1_seat
+    region: system
+    address: "0x84e1"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: p1_doubles
+    region: system
+    address: "0x84ef"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: p2_square
+    region: system
+    address: "0x84fa"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: p2_cash
+    region: system
+    address: "0x8500"
+    width: 4
+    endian: little
+    is_signed: false
+  - name: p2_seat
+    region: system
+    address: "0x84fd"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: players_left
+    region: system
+    address: "0x84dd"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: current_player
+    region: system
+    address: "0x85dd"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: die_1
+    region: system
+    address: "0x867e"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: die_2
+    region: system
+    address: "0x867f"
+    width: 1
+    endian: little
+    is_signed: false
+  # The 68000 word the dice are drawn from; it shifts once a frame on its
+  # own, so the frame a roll is pressed on chooses the roll.
+  - name: rng
+    region: system
+    address: "0x84b8"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: game_minutes
+    region: system
+    address: "0x86bc"
+    width: 1
+    endian: little
+    is_signed: false
+  # The animation delay the GAME SPEED menu writes (rom 0x96e0 / 0x96fa):
+  # 9 is FAST and 14 is SLOW, so the tape's own last segment waits on it.
+  - name: game_speed
+    region: system
+    address: "0x9740"
+    width: 2
+    endian: little
+    is_signed: false

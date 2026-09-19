@@ -1,0 +1,66 @@
+# Dune from the mission 1 victory plate into Atreides mission 2.
+# The plate, the region map, the mentat's "well done", the score screen,
+# the region map again, the mission 2 briefing and PROCEED all advance on
+# Genesis A, which is retro y in this core; fifteen presses cover them and
+# the sixteenth lands inside the zoom, where A does nothing.
+header:
+  name: mission-1-to-mission-2
+  profile: examples/dune/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 6000
+  on_timeout: fail
+segments:
+  # The plate's four frames animate, so its perceptual hash moves by two
+  # bits; it is 28 from the map it replaces, which leaves room to spare.
+  - name: victory-plate
+    anchor:
+      kind: perceptual_hash
+      hash: 30b14b4e6e34b8cb
+      max_distance: 6
+    timeout_frames: 1800
+    frames: 2100
+    transitions: |
+      30   down p1.y
+      36   up   p1.y
+      156  down p1.y
+      162  up   p1.y
+      282  down p1.y
+      288  up   p1.y
+      408  down p1.y
+      414  up   p1.y
+      534  down p1.y
+      540  up   p1.y
+      660  down p1.y
+      666  up   p1.y
+      786  down p1.y
+      792  up   p1.y
+      912  down p1.y
+      918  up   p1.y
+      1038 down p1.y
+      1044 up   p1.y
+      1164 down p1.y
+      1170 up   p1.y
+      1290 down p1.y
+      1296 up   p1.y
+      1416 down p1.y
+      1422 up   p1.y
+      1542 down p1.y
+      1548 up   p1.y
+      1668 down p1.y
+      1674 up   p1.y
+      1794 down p1.y
+      1800 up   p1.y
+      1920 down p1.y
+      1926 up   p1.y
+
+  # The purse reads its opening 1,200 while the screen is still black, so
+  # the segment waits on the counter the mission draws instead.
+  - name: mission-2
+    anchor:
+      kind: watch
+      watch: credits_shown
+      comparison: equal
+      value: 1200
+    timeout_frames: 2400
+    frames: 1

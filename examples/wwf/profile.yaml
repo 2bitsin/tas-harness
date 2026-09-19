@@ -1,0 +1,99 @@
+name: wwf
+core: genesis_plus_gx
+rom: roms/Genesis/WWF WrestleMania - The Arcade Game (USA, Europe).zip
+system_dir: ""
+save_dir: ""
+ports:
+  - joypad
+  - none
+watches:
+  - name: p1_health
+    region: system
+    address: "0xb312"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: p1_bar
+    region: system
+    address: "0xb316"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: p1_meter
+    region: system
+    address: "0xb31c"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: cpu_health
+    region: system
+    address: "0xb32e"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: cpu_bar
+    region: system
+    address: "0xb332"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: cpu_meter
+    region: system
+    address: "0xb338"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: timer_tens
+    region: system
+    address: "0xaae6"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: timer_ones
+    region: system
+    address: "0xaae8"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: match
+    region: system
+    address: "0xab14"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: opponent
+    region: system
+    address: "0xb37a"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: p1_x
+    region: system
+    address: "0xaabe"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: cpu_x
+    region: system
+    address: "0xaade"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: p1_action
+    region: system
+    address: "0x8548"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: skill
+    region: system
+    address: "0xf4f0"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: cpu_action
+    region: system
+    address: "0x87b8"
+    width: 2
+    endian: little
+    is_signed: false

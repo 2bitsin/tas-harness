@@ -1,0 +1,71 @@
+# Theme Park from power on to the empty park: the EA logo runs itself out,
+# then four presses pick the defaults. The name screen is left untouched, so
+# the park is EASY money, HAPPY visitors and EASY opponents under the name
+# the game fills in; EASY is 200,000 in the bank, the most a first park can
+# start with, and the sale the run is after is gated on money.
+# Genesis A is retro y and Genesis B is retro b in this core.
+header:
+  name: title-to-park
+  profile: examples/themepark/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 1400
+  on_timeout: fail
+segments:
+  # The logo fades, so the exact hash moves every frame; the menu is still.
+  - name: main-menu
+    anchor:
+      kind: perceptual_hash
+      hash: 4c6f6c2e11939393
+      max_distance: 4
+    frames: 12
+    transitions: |
+      0   down p1.y
+      6   up   p1.y
+
+  # Nothing is typed: start leaves the three defaults as they are.
+  - name: enter-name
+    anchor:
+      kind: perceptual_hash
+      hash: 509c2f612fcb3e30
+      max_distance: 4
+    timeout_frames: 180
+    frames: 12
+    transitions: |
+      0   down p1.start
+      6   up   p1.start
+
+  # The map and the plot's info panel differ by 7 bits of the perceptual
+  # hash, so the distance has to stay under half of that.
+  - name: world-map
+    anchor:
+      kind: perceptual_hash
+      hash: 767f099018b861f5
+      max_distance: 3
+    timeout_frames: 420
+    frames: 12
+    transitions: |
+      0   down p1.y
+      6   up   p1.y
+
+  - name: uk-plot
+    anchor:
+      kind: perceptual_hash
+      hash: 767f0d1910b025f5
+      max_distance: 3
+    timeout_frames: 240
+    frames: 12
+    transitions: |
+      0   down p1.start
+      6   up   p1.start
+
+  # The park's clock runs, so the anchor is the cursor the game parks at the
+  # entrance rather than a picture.
+  - name: park
+    anchor:
+      kind: watch
+      watch: cursor_y
+      comparison: equal
+      value: 41
+    timeout_frames: 480
+    frames: 1

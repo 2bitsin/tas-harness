@@ -1,0 +1,75 @@
+# Columns from power on to the first column falling: three presses of start
+# and a direction held. The timeouts are the frames the screens actually
+# take (319 to the title, 1 to the menu, 70 to the level panel, 294 from the
+# third press to the playfield) with half again on top.
+header:
+  name: title-to-game
+  profile: examples/columns/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 480
+  on_timeout: fail
+segments:
+  # The SEGA banner above the logo animates, so the exact hash moves every
+  # frame and the perceptual hash does not.
+  - name: title
+    anchor:
+      kind: perceptual_hash
+      hash: 4396eb43383c47c5
+      max_distance: 4
+    frames: 12
+    transitions: |
+      0   down p1.start
+      10  up   p1.start
+
+  # The SELECT row cycles its colours; the crop starts below it.
+  - name: menu-arcade
+    anchor:
+      kind: template_image
+      image: title-to-game.anchors/menu.png
+      region: { x: 109, y: 139, width: 102, height: 50 }
+      minimum_score: 0.98
+    timeout_frames: 270
+    frames: 12
+    transitions: |
+      0   down p1.start
+      10  up   p1.start
+
+  - name: select-level
+    anchor:
+      kind: template_image
+      image: title-to-game.anchors/select-level.png
+      region: { x: 18, y: 42, width: 122, height: 88 }
+      minimum_score: 0.98
+    timeout_frames: 360
+    frames: 12
+    transitions: |
+      0   down p1.start
+      10  up   p1.start
+
+  # The crop is the empty playfield where the level panel used to be, and
+  # the region is that panel's own rectangle, so the panel cannot match it.
+  - name: playfield
+    anchor:
+      kind: template_image
+      image: title-to-game.anchors/playfield.png
+      region: { x: 14, y: 94, width: 52, height: 68 }
+      minimum_score: 0.98
+    timeout_frames: 450
+    frames: 150
+    transitions: |
+      0    down p1.left
+      24   up   p1.left
+      24   down p1.down
+      144  up   p1.down
+
+  # Columns pays for a fast drop, so a score above zero is the first column
+  # on the floor and not merely on its way there.
+  - name: first-column
+    anchor:
+      kind: watch
+      watch: score
+      comparison: greater
+      value: 0
+    timeout_frames: 120
+    frames: 1

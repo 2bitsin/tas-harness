@@ -1,0 +1,121 @@
+# roms/ is the machine's own cartridge library; the zip is never written
+# to, session/rom-file extracts it into the run's scratch directory.
+name: dune
+core: genesis_plus_gx
+rom: roms/Genesis/Dune - The Battle for Arrakis (USA).zip
+system_dir: ""
+save_dir: ""
+ports:
+  - joypad
+  - none
+
+# Genesis Plus GX keeps work ram byte-swapped: region offset R is 68000
+# address R xor 1, so a 68000 word at an even address reads as a
+# little-endian 16-bit word at the same offset.
+# examples/dune/README.md has the hunt that found these.
+watches:
+  - name: credits
+    region: system
+    address: "0x4d6a"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: credits_shown
+    region: system
+    address: "0xc05a"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: buildings
+    region: system
+    address: "0xdbee"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: enemy_buildings
+    region: system
+    address: "0xdbec"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: cursor_x
+    region: system
+    address: "0xbf12"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: cursor_y
+    region: system
+    address: "0xbf14"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: radar_x
+    region: system
+    address: "0xbf4c"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: radar_y
+    region: system
+    address: "0xbf4e"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: mission
+    region: system
+    address: "0xc04c"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: house
+    region: system
+    address: "0xc274"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: panel_row
+    region: system
+    address: "0xbf8c"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: panel_column
+    region: system
+    address: "0xbf8a"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: panel_price
+    region: system
+    address: "0xfe8a"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: picked_x
+    region: system
+    address: "0xbf5c"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: picked_y
+    region: system
+    address: "0xbf5a"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: mode
+    region: system
+    address: "0xf702"
+    width: 2
+    endian: little
+    is_signed: false
+  # Mission 1's harvester is entity 27, so its load word sits at the entity
+  # table's base plus 27 strides plus 2. examples/dune/state.py holds the
+  # table's shape and the map array's, which no watch can name.
+  - name: harvester_load
+    region: system
+    address: "0x1e0a"
+    width: 2
+    endian: little
+    is_signed: false

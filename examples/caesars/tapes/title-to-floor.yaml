@@ -1,0 +1,127 @@
+# Power on to the casino floor. The cashier will not deal with a walk-in:
+# the account is made first, so the player reaches the floor with $2000 and
+# the wallet the games read.
+header:
+  name: title-to-floor
+  profile: examples/caesars/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 600
+  on_timeout: fail
+segments:
+  # The attract billboard pans and redraws, so nothing on it holds still
+  # long enough to anchor on; from power on the frame count does.
+  - name: attract
+    anchor:
+      kind: none
+    frames: 1420
+    transitions: |
+      1400  down p1.start
+      1408  up   p1.start
+
+  # The palace front is a still picture, so the perceptual hash is exact.
+  - name: palace-front
+    anchor:
+      kind: perceptual_hash
+      hash: 50402f2f1cbf9e58
+      max_distance: 2
+    timeout_frames: 300
+    frames: 90
+    transitions: |
+      77    down p1.start
+      85    up   p1.start
+
+  # QUICKASHIER: the third red button is NEW ACCOUNT, the name is typed on
+  # the keyboard below, and OK is followed by the two password screens.
+  - name: cashier
+    anchor:
+      kind: perceptual_hash
+      hash: 4437cbc837c0acbc
+      max_distance: 2
+    timeout_frames: 300
+    frames: 791
+    transitions: |
+      0     down p1.right
+      3     up   p1.right
+      73    down p1.right
+      76    up   p1.right
+      146   down p1.right
+      149   up   p1.right
+      219   down p1.right
+      222   up   p1.right
+      292   down p1.right
+      295   up   p1.right
+      365   down p1.right
+      368   up   p1.right
+      396   down p1.up
+      399   up   p1.up
+      409   down p1.b
+      415   up   p1.b
+      416   down p1.left
+      419   up   p1.left
+      441   down p1.left
+      444   up   p1.left
+      452   down p1.left
+      455   up   p1.left
+      463   down p1.left
+      466   up   p1.left
+      474   down p1.left
+      477   up   p1.left
+      485   down p1.b
+      491   up   p1.b
+      515   down p1.down
+      518   up   p1.down
+      526   down p1.down
+      529   up   p1.down
+      537   down p1.left
+      540   up   p1.left
+      548   down p1.left
+      551   up   p1.left
+      559   down p1.left
+      562   up   p1.left
+      570   down p1.left
+      573   up   p1.left
+      581   down p1.b
+      587   up   p1.b
+      611   down p1.b
+      617   up   p1.b
+      641   down p1.down
+      644   up   p1.down
+      652   down p1.left
+      655   up   p1.left
+      665   down p1.right
+      668   up   p1.right
+      678   down p1.right
+      681   up   p1.right
+      689   down p1.right
+      692   up   p1.right
+      700   down p1.right
+      703   up   p1.right
+      711   down p1.right
+      714   up   p1.right
+      722   down p1.right
+      725   up   p1.right
+      733   down p1.right
+      736   up   p1.right
+      744   down p1.right
+      747   up   p1.right
+      756   down p1.b
+      762   up   p1.b
+      763   down p1.b
+      769   up   p1.b
+      770   down p1.b
+      776   up   p1.b
+      777   down p1.b
+      783   up   p1.b
+
+  # On the floor the player has a position; in the cashier he has none.
+  # The floor takes a step 20 frames after it appears, measured; the tape
+  # idles past that so the state it ends in can be walked out of.
+  - name: floor
+    anchor:
+      kind: watch
+      watch: player_x
+      comparison: greater
+      value: 0
+    timeout_frames: 300
+    frames: 32

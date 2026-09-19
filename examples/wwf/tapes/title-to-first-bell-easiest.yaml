@@ -1,0 +1,95 @@
+# title-to-first-bell-hardest with the two SKILL taps reversed: VERY EASY,
+# the bottom of the five, which is where the combo mechanics were measured.
+header:
+  name: title-to-first-bell-easiest
+  profile: examples/wwf/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 1800
+  on_timeout: fail
+segments:
+  # The logo slides in over a cracked-rock backdrop that keeps moving, so the
+  # exact hash never settles and the perceptual one does. Start is ignored
+  # for the first twenty frames the title is up; the tap waits thirty.
+  - name: title
+    anchor:
+      kind: perceptual_hash
+      hash: 59c80a81f17e6796
+      max_distance: 4
+    frames: 40
+    transitions: |
+      30  down p1.start
+      34  up   p1.start
+
+  # Four taps of down walk the cursor past Bret Hart to OPTIONS, the entry
+  # under the portrait grid; C opens it, SKILL is the highlighted row, and
+  # two taps of left step it from MEDIUM down to VERY EASY.
+  - name: roster
+    anchor:
+      kind: template_image
+      image: title-to-first-bell.anchors/roster.png
+      region: { x: 128, y: 60, width: 30, height: 90 }
+      minimum_score: 0.98
+    timeout_frames: 200
+    frames: 110
+    transitions: |
+      0   down p1.down
+      4   up   p1.down
+      14  down p1.down
+      18  up   p1.down
+      28  down p1.down
+      32  up   p1.down
+      42  down p1.down
+      46  up   p1.down
+      56  down p1.a
+      60  up   p1.a
+      76  down p1.left
+      80  up   p1.left
+      90  down p1.left
+      94  up   p1.left
+
+  # VERY EASY is skill 2, and the word holds it from here to the bell. B
+  # leaves the panel with the cursor back on Doink, and three taps of down
+  # walk it to Bret Hart again.
+  - name: skill-set
+    anchor:
+      kind: watch
+      watch: skill
+      comparison: equal
+      value: 2
+    timeout_frames: 300
+    frames: 80
+    transitions: |
+      0   down p1.b
+      4   up   p1.b
+      24  down p1.down
+      28  up   p1.down
+      38  down p1.down
+      42  up   p1.down
+      52  down p1.down
+      56  up   p1.down
+      66  down p1.a
+      70  up   p1.a
+
+  # The title menu is still: Intercontinental is the default highlight and
+  # the WWF Championship is one press of down away, so a bare C confirms it.
+  - name: title-select
+    anchor:
+      kind: exact_hash
+      hash: f570a00716868e82
+    timeout_frames: 400
+    frames: 12
+    transitions: |
+      0   down p1.a
+      4   up   p1.a
+
+  # The clock is set to 99 while the crowd and the announcer play out; its
+  # first tick is the bell, and the pad is live from there.
+  - name: first-bell
+    anchor:
+      kind: watch
+      watch: timer_ones
+      comparison: equal
+      value: 8
+    timeout_frames: 900
+    frames: 1

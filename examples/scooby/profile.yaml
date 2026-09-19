@@ -1,0 +1,63 @@
+# roms/ is the machine's own cartridge library; the zip is never written
+# to, session/rom-file extracts it into the run's scratch directory.
+name: scooby
+core: genesis_plus_gx
+rom: roms/Genesis/Scooby-Doo Mystery (USA).zip
+system_dir: ""
+save_dir: ""
+ports:
+  - joypad
+  - none
+
+# Genesis Plus GX keeps work ram byte-swapped: region offset R is 68000
+# address R xor 1. Every word below is a 68000 word read little-endian out
+# of that region; examples/scooby/README.md has the hunt that found them.
+watches:
+  - name: room
+    region: system
+    address: "0x6ac"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: hover
+    region: system
+    address: "0x6ae"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: verb
+    region: system
+    address: "0x6b8"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: cursor_x
+    region: system
+    address: "0x6dc"
+    width: 2
+    endian: little
+    is_signed: true
+  - name: cursor_y
+    region: system
+    address: "0x6de"
+    width: 2
+    endian: little
+    is_signed: true
+  - name: shaggy_x
+    region: system
+    address: "0x4dc"
+    width: 2
+    endian: little
+    is_signed: true
+  - name: shaggy_y
+    region: system
+    address: "0x4e0"
+    width: 2
+    endian: little
+    is_signed: true
+  - name: live
+    region: system
+    address: "0x631"
+    width: 1
+    endian: little
+    is_signed: false

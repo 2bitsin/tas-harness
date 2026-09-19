@@ -1,0 +1,69 @@
+# WWF WrestleMania from power on to the first bell of the first
+# Intercontinental match, as Bret Hart. The timeouts are the frames the
+# screens actually take (837 to the title, 103 from the first start tap to
+# the roster, 236 from the pick to the title menu, 674 from the confirm to
+# the first tick of the match clock) with half again on top.
+header:
+  name: title-to-first-bell
+  profile: examples/wwf/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 1300
+  on_timeout: fail
+segments:
+  # The logo slides in over a cracked-rock backdrop that keeps moving, so the
+  # exact hash never settles and the perceptual one does. Start is ignored
+  # for the first twenty frames the title is up; the tap waits thirty.
+  - name: title
+    anchor:
+      kind: perceptual_hash
+      hash: 59c80a81f17e6796
+      max_distance: 4
+    frames: 40
+    transitions: |
+      30  down p1.start
+      34  up   p1.start
+
+  # The big portrait beside the roster animates and the right-hand panel
+  # blinks; the crop is the right column of the portrait grid, below the
+  # cursor's home cell. Three taps of down walk the cursor to Bret Hart.
+  - name: roster
+    anchor:
+      kind: template_image
+      image: title-to-first-bell.anchors/roster.png
+      region: { x: 128, y: 60, width: 30, height: 90 }
+      minimum_score: 0.98
+    timeout_frames: 200
+    frames: 50
+    transitions: |
+      0   down p1.down
+      4   up   p1.down
+      14  down p1.down
+      18  up   p1.down
+      28  down p1.down
+      32  up   p1.down
+      42  down p1.a
+      46  up   p1.a
+
+  # The title menu is still: Intercontinental is the default highlight and
+  # the WWF Championship is one press of down away, so a bare C confirms it.
+  - name: title-select
+    anchor:
+      kind: exact_hash
+      hash: f570a00716868e82
+    timeout_frames: 400
+    frames: 12
+    transitions: |
+      0   down p1.a
+      4   up   p1.a
+
+  # The clock is set to 99 while the crowd and the announcer play out; its
+  # first tick is the bell, and the pad is live from there.
+  - name: first-bell
+    anchor:
+      kind: watch
+      watch: timer_ones
+      comparison: equal
+      value: 8
+    timeout_frames: 900
+    frames: 1

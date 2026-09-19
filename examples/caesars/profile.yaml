@@ -1,0 +1,51 @@
+# roms/ is the machine's own cartridge library; the zip is never written
+# to, session/rom-file extracts it into the run's scratch directory.
+name: caesars
+core: genesis_plus_gx
+rom: roms/Genesis/Caesars Palace (USA).zip
+system_dir: ""
+save_dir: ""
+ports:
+  - joypad
+  - none
+
+# Genesis Plus GX keeps work ram byte-swapped, so a 68000 word reads back
+# little-endian here. Every counter below is the low half of a longword;
+# examples/caesars/README.md has the hunt that found each one.
+watches:
+  - name: money
+    region: system
+    address: "0xcdd2"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: hand_x
+    region: system
+    address: "0xcbc4"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: hand_y
+    region: system
+    address: "0xcbc8"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: player_x
+    region: system
+    address: "0xd3bc"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: player_y
+    region: system
+    address: "0xd3be"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: rng
+    region: system
+    address: "0x288a"
+    width: 2
+    endian: little
+    is_signed: false

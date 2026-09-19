@@ -1,0 +1,33 @@
+# roms/ is the machine's own cartridge library; the zip is never written
+# to, session/rom-file extracts it into the run's scratch directory.
+name: columns
+core: genesis_plus_gx
+rom: roms/Genesis/Columns (USA, Europe).zip
+system_dir: ""
+save_dir: ""
+ports:
+  - joypad
+  - none
+
+# Genesis Plus GX keeps work ram byte-swapped, so a 68000 word reads back
+# little-endian here. Each counter is a longword whose low half these
+# addresses name; examples/columns/README.md has the hunt that found them.
+watches:
+  - name: score
+    region: system
+    address: "0xc81e"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: level
+    region: system
+    address: "0xc82e"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: jewels
+    region: system
+    address: "0xc826"
+    width: 2
+    endian: little
+    is_signed: false

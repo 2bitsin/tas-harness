@@ -1,0 +1,217 @@
+# Monopoly from power on to the first roll with the player in control.
+# The setup takes the fewest opponents the game allows (two players, one
+# human and one computer), the name grid's END with no name typed, the
+# token the game offers first and the opponent the gallery opens on.
+# Genesis A is retro y, B is b, C is a; only start leaves the title.
+header:
+  name: title-to-first-roll
+  profile: examples/monopoly/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 9000
+  on_timeout: fail
+segments:
+  # The title's walking man moves every frame, so no picture on it rests
+  # long enough to anchor; the segment starts at power on instead and
+  # presses start once the title is up.
+  - name: title
+    timeout_frames: 60
+    frames: 420
+    transitions: |
+      360  down p1.start
+      366  up   p1.start
+
+  # The vault swings open on NUMBER OF PLAYERS with 2 already chosen.
+  - name: players
+    anchor:
+      kind: perceptual_hash
+      hash: 7e7280d589c1ccae
+      max_distance: 4
+    timeout_frames: 900
+    frames: 120
+    transitions: |
+      30   down p1.y
+      36   up   p1.y
+
+  # PLAYER 1 IS HUMAN, and HUMAN is where the highlight sits.
+  - name: player-1-is
+    anchor:
+      kind: perceptual_hash
+      hash: 7e5680d0c9c5ce2e
+      max_distance: 2
+    timeout_frames: 600
+    frames: 120
+    transitions: |
+      30   down p1.y
+      36   up   p1.y
+
+  # The name grid: four rows of letters and END under them. Four presses
+  # of down walk the cursor to END and A takes it with no name typed.
+  - name: name
+    anchor:
+      kind: perceptual_hash
+      hash: 7e70c0d48d85ccae
+      max_distance: 2
+    timeout_frames: 600
+    frames: 240
+    transitions: |
+      30   down p1.down
+      36   up   p1.down
+      66   down p1.down
+      72   up   p1.down
+      102  down p1.down
+      108  up   p1.down
+      138  down p1.down
+      144  up   p1.down
+      174  down p1.y
+      180  up   p1.y
+
+  - name: token
+    anchor:
+      kind: perceptual_hash
+      hash: 7e76c0d18c85c8ae
+      max_distance: 2
+    timeout_frames: 600
+    frames: 120
+    transitions: |
+      30   down p1.y
+      36   up   p1.y
+
+  # PLAYER 2 IS: one press of right moves the highlight to COMPUTER.
+  - name: player-2-is
+    anchor:
+      kind: perceptual_hash
+      hash: 7e5680d089c5ceae
+      max_distance: 2
+    timeout_frames: 600
+    frames: 180
+    transitions: |
+      30   down p1.right
+      36   up   p1.right
+      96   down p1.y
+      102  up   p1.y
+
+  # The opponent gallery opens on Amanda.
+  - name: opponent
+    anchor:
+      kind: perceptual_hash
+      hash: 4402ab7cfdd9d80c
+      max_distance: 4
+    timeout_frames: 600
+    frames: 120
+    transitions: |
+      30   down p1.y
+      36   up   p1.y
+
+  # PRESS A TO START, OR PRESS C FOR OPTIONS. A starts the game with no
+  # option changed: no time limit, every deed with the bank, $1500 each.
+  - name: ready
+    anchor:
+      kind: perceptual_hash
+      hash: 7e76c0d18d84cc8e
+      max_distance: 2
+    timeout_frames: 600
+    frames: 60
+    transitions: |
+      30   down p1.y
+      36   up   p1.y
+
+  # The game rolls for turn order itself and Amanda wins it, so her whole
+  # turn is played before the human's first roll. Every screen of it --
+  # the turn-order plate, the roll, the property, the card -- advances on
+  # Genesis A, and a press that lands on nothing costs nothing.
+  - name: opponent-first-turn
+    anchor:
+      kind: watch
+      watch: current_player
+      comparison: equal
+      value: 1
+    timeout_frames: 1800
+    frames: 760
+    transitions: |
+      30   down p1.y
+      36   up   p1.y
+      90   down p1.y
+      96   up   p1.y
+      150  down p1.y
+      156  up   p1.y
+      210  down p1.y
+      216  up   p1.y
+      270  down p1.y
+      276  up   p1.y
+      330  down p1.y
+      336  up   p1.y
+      390  down p1.y
+      396  up   p1.y
+      450  down p1.y
+      456  up   p1.y
+      510  down p1.y
+      516  up   p1.y
+      570  down p1.y
+      576  up   p1.y
+      630  down p1.y
+      636  up   p1.y
+      690  down p1.y
+      696  up   p1.y
+
+  # The roll prompt names whoever is to roll and the computer's prompt
+  # hashes within four bits of the human's, so the tape ends on the watch
+  # that says the turn came back rather than on a picture.
+  - name: first-roll
+    anchor:
+      kind: watch
+      watch: current_player
+      comparison: equal
+      value: 0
+    timeout_frames: 1800
+    frames: 60
+
+  # GAME SPEED FAST, from the roll prompt and back to it: C opens WHOM AM I
+  # TALKING TO, A takes PLAYER 1, four downs walk the panel to GENERAL, A
+  # opens it, down walks TIMER to GAME SPEED, A opens SLOW/FAST, down takes
+  # FAST, A applies it, and two Cs quit the submenu and the panel.
+  - name: game-speed-fast
+    anchor:
+      kind: watch
+      watch: current_player
+      comparison: equal
+      value: 0
+    timeout_frames: 600
+    frames: 840
+    transitions: |
+      30   down p1.a
+      36   up   p1.a
+      90   down p1.y
+      96   up   p1.y
+      150  down p1.down
+      156  up   p1.down
+      210  down p1.down
+      216  up   p1.down
+      270  down p1.down
+      276  up   p1.down
+      330  down p1.down
+      336  up   p1.down
+      390  down p1.y
+      396  up   p1.y
+      450  down p1.down
+      456  up   p1.down
+      510  down p1.y
+      516  up   p1.y
+      570  down p1.down
+      576  up   p1.down
+      630  down p1.y
+      636  up   p1.y
+      690  down p1.a
+      696  up   p1.a
+      750  down p1.a
+      756  up   p1.a
+
+  # 9 is the delay FAST writes; the tape refuses to end on a slow game.
+  - name: fast
+    anchor:
+      kind: watch
+      watch: game_speed
+      comparison: equal
+      value: 9
+    timeout_frames: 600
+    frames: 60

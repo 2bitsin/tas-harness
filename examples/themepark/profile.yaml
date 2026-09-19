@@ -1,0 +1,150 @@
+# roms/ is the machine's own cartridge library; the zip is never written
+# to, session/rom-file extracts it into the run's scratch directory.
+name: themepark
+core: genesis_plus_gx
+rom: roms/Genesis/Theme Park (USA, Europe).zip
+system_dir: ""
+save_dir: ""
+ports:
+  - joypad
+  - none
+
+# Genesis Plus GX keeps work ram byte-swapped, which is what `endian:
+# swapped` reads: little-endian 16-bit words in big-endian order.
+# examples/themepark/README.md has the hunt that found these.
+watches:
+  - name: cash
+    region: system
+    address: "0xc67c"
+    width: 4
+    endian: swapped
+    is_signed: false
+  - name: park_value
+    region: system
+    address: "0xc680"
+    width: 4
+    endian: swapped
+    is_signed: false
+  - name: loan
+    region: system
+    address: "0xc684"
+    width: 4
+    endian: swapped
+    is_signed: false
+  - name: sale_value
+    region: system
+    address: "0x1d98"
+    width: 4
+    endian: swapped
+    is_signed: false
+  - name: gate_chance
+    region: system
+    address: "0x1d7a"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: peeps_in_park
+    region: system
+    address: "0x1d9e"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: peeps_ever
+    region: system
+    address: "0x1db2"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: gate_takings
+    region: system
+    address: "0x1da2"
+    width: 4
+    endian: swapped
+    is_signed: false
+  - name: day
+    region: system
+    address: "0x20da"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: month
+    region: system
+    address: "0x1197"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: cursor_x
+    region: system
+    address: "0x2204"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: cursor_y
+    region: system
+    address: "0x220c"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: pointer_x
+    region: system
+    address: "0x19a0"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: pointer_y
+    region: system
+    address: "0x19a4"
+    width: 2
+    endian: little
+    is_signed: false
+# The player's company record is 68000 $ffffc894: $38 is the chart
+# rank and $3a..$3f the six placings whose sum it sorts on, each
+# byte read at its address xor 1.
+  - name: rank
+    region: system
+    address: "0xc8cc"
+    width: 2
+    endian: little
+    is_signed: false
+  - name: key_richest
+    region: system
+    address: "0xc8cf"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: key_exciting
+    region: system
+    address: "0xc8ce"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: key_pleasant
+    region: system
+    address: "0xc8d1"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: key_biggest
+    region: system
+    address: "0xc8d0"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: key_amenities
+    region: system
+    address: "0xc8d3"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: key_satisfying
+    region: system
+    address: "0xc8d2"
+    width: 1
+    endian: little
+    is_signed: false
+  - name: max_loan
+    region: system
+    address: "0x1aaa"
+    width: 4
+    endian: swapped
+    is_signed: false

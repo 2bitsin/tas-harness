@@ -1,0 +1,27 @@
+# The tape the tape tests replay: zsenilia takes no input, so what this
+# proves is the path -- anchors hold, transitions land, two runs agree.
+header:
+  name: demo
+  profile: examples/homebrew/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 600
+  on_timeout: fail
+segments:
+  - name: first-frame
+    anchor:
+      kind: exact_hash
+      hash: d90a8b4b09bd710f
+    frames: 30
+    transitions: |
+      0  down p1.start
+      2  up   p1.start
+  - name: logo
+    anchor:
+      kind: template_image
+      image: demo.anchors/logo.png
+      minimum_score: 0.99
+    frames: 60
+    transitions: |
+      0   down p1.right
+      20  up   p1.right

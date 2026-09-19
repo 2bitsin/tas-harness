@@ -1,0 +1,101 @@
+# Dune from power on to Atreides mission 1 with the player in control.
+# The intro runs itself out to the title menu; start opens it, and every
+# screen after the house plate -- the four house texts, the join prompt,
+# the mentat's briefing, PROCEED -- advances on Genesis A, which is retro
+# y in this core. Nineteen presses cover a sequence that needs seventeen;
+# the spare ones land on the region-map zoom, where A does nothing.
+header:
+  name: title-to-mission-1
+  profile: examples/dune/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 6000
+  on_timeout: fail
+segments:
+  # The starfield twinkles on a four-frame cycle, so the exact hash moves
+  # and the perceptual one wanders by a few bits; the anchor catches the
+  # screen while it is still fading in, so start is pressed eight times
+  # over the window. Extra presses sit on the house plate, where start
+  # does nothing.
+  - name: title-menu
+    anchor:
+      kind: perceptual_hash
+      hash: 19936665cc6c9993
+      max_distance: 8
+    timeout_frames: 2400
+    frames: 900
+    transitions: |
+      0    down p1.start
+      6    up   p1.start
+      120  down p1.start
+      126  up   p1.start
+      240  down p1.start
+      246  up   p1.start
+      360  down p1.start
+      366  up   p1.start
+      480  down p1.start
+      486  up   p1.start
+      600  down p1.start
+      606  up   p1.start
+      720  down p1.start
+      726  up   p1.start
+      840  down p1.start
+      846  up   p1.start
+
+  # ATREIDES is the plate the game starts on, so A takes it as it stands.
+  - name: house-to-mission
+    anchor:
+      kind: perceptual_hash
+      hash: 41cb3eb6c169d0b4
+      max_distance: 4
+    timeout_frames: 900
+    frames: 1260
+    transitions: |
+      30   down p1.y
+      36   up   p1.y
+      96   down p1.y
+      102  up   p1.y
+      162  down p1.y
+      168  up   p1.y
+      228  down p1.y
+      234  up   p1.y
+      294  down p1.y
+      300  up   p1.y
+      360  down p1.y
+      366  up   p1.y
+      426  down p1.y
+      432  up   p1.y
+      492  down p1.y
+      498  up   p1.y
+      558  down p1.y
+      564  up   p1.y
+      624  down p1.y
+      630  up   p1.y
+      690  down p1.y
+      696  up   p1.y
+      756  down p1.y
+      762  up   p1.y
+      822  down p1.y
+      828  up   p1.y
+      888  down p1.y
+      894  up   p1.y
+      954  down p1.y
+      960  up   p1.y
+      1020 down p1.y
+      1026 up   p1.y
+      1086 down p1.y
+      1092 up   p1.y
+      1152 down p1.y
+      1158 up   p1.y
+      1218 down p1.y
+      1224 up   p1.y
+  # The mission is up when the game hands the credit counter its opening
+  # 990; the map scrolls and the units walk, so no picture is still.
+  - name: mission-1
+    anchor:
+      kind: watch
+      watch: credits
+      comparison: equal
+      value: 990
+    timeout_frames: 1800
+    frames: 1

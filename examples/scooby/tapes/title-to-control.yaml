@@ -1,0 +1,228 @@
+header:
+  name: title-to-control
+  profile: examples/scooby/profile.yaml
+  core: genesis_plus_gx
+  time_base: frame
+  timeout_frames: 3000
+  on_timeout: fail
+segments:
+  - name: power-on
+    frames: 1
+
+  # The title animates every frame (lightning over the graveyard), so the
+  # anchor is the menu text alone, matched as an image.
+  - name: title
+    anchor:
+      kind: template_image
+      image: title-to-control.anchors/title.png
+      minimum_score: 0.95
+    frames: 1
+
+  # Start on the title opens START / CONTINUE / CANCEL under the entry the
+  # cursor is on, and that entry is PLAY BLAKE'S HOTEL until the player
+  # moves it: the first scenario is the game's own offer and the order is
+  # the player's. Start again takes START, and every Start after it skips
+  # one beat of the arrival cutscene -- 380 frames against the 13,560 the
+  # same cutscene takes with the pad untouched.
+  - name: start-blakes-hotel
+    frames: 380
+    transitions: |
+      0    down p1.start
+      2    up   p1.start
+      4    down p1.start
+      6    up   p1.start
+      8    down p1.start
+      10   up   p1.start
+      12   down p1.start
+      14   up   p1.start
+      16   down p1.start
+      18   up   p1.start
+      20   down p1.start
+      22   up   p1.start
+      24   down p1.start
+      26   up   p1.start
+      28   down p1.start
+      30   up   p1.start
+      32   down p1.start
+      34   up   p1.start
+      36   down p1.start
+      38   up   p1.start
+      40   down p1.start
+      42   up   p1.start
+      44   down p1.start
+      46   up   p1.start
+      48   down p1.start
+      50   up   p1.start
+      52   down p1.start
+      54   up   p1.start
+      56   down p1.start
+      58   up   p1.start
+      60   down p1.start
+      62   up   p1.start
+      64   down p1.start
+      66   up   p1.start
+      68   down p1.start
+      70   up   p1.start
+      72   down p1.start
+      74   up   p1.start
+      76   down p1.start
+      78   up   p1.start
+      80   down p1.start
+      82   up   p1.start
+      84   down p1.start
+      86   up   p1.start
+      88   down p1.start
+      90   up   p1.start
+      92   down p1.start
+      94   up   p1.start
+      96   down p1.start
+      98   up   p1.start
+      100  down p1.start
+      102  up   p1.start
+      104  down p1.start
+      106  up   p1.start
+      108  down p1.start
+      110  up   p1.start
+      112  down p1.start
+      114  up   p1.start
+      116  down p1.start
+      118  up   p1.start
+      120  down p1.start
+      122  up   p1.start
+      124  down p1.start
+      126  up   p1.start
+      128  down p1.start
+      130  up   p1.start
+      132  down p1.start
+      134  up   p1.start
+      136  down p1.start
+      138  up   p1.start
+      140  down p1.start
+      142  up   p1.start
+      144  down p1.start
+      146  up   p1.start
+      148  down p1.start
+      150  up   p1.start
+      152  down p1.start
+      154  up   p1.start
+      156  down p1.start
+      158  up   p1.start
+      160  down p1.start
+      162  up   p1.start
+      164  down p1.start
+      166  up   p1.start
+      168  down p1.start
+      170  up   p1.start
+      172  down p1.start
+      174  up   p1.start
+      176  down p1.start
+      178  up   p1.start
+      180  down p1.start
+      182  up   p1.start
+      184  down p1.start
+      186  up   p1.start
+      188  down p1.start
+      190  up   p1.start
+      192  down p1.start
+      194  up   p1.start
+      196  down p1.start
+      198  up   p1.start
+      200  down p1.start
+      202  up   p1.start
+      204  down p1.start
+      206  up   p1.start
+      208  down p1.start
+      210  up   p1.start
+      212  down p1.start
+      214  up   p1.start
+      216  down p1.start
+      218  up   p1.start
+      220  down p1.start
+      222  up   p1.start
+      224  down p1.start
+      226  up   p1.start
+      228  down p1.start
+      230  up   p1.start
+      232  down p1.start
+      234  up   p1.start
+      236  down p1.start
+      238  up   p1.start
+      240  down p1.start
+      242  up   p1.start
+      244  down p1.start
+      246  up   p1.start
+      248  down p1.start
+      250  up   p1.start
+      252  down p1.start
+      254  up   p1.start
+      256  down p1.start
+      258  up   p1.start
+      260  down p1.start
+      262  up   p1.start
+      264  down p1.start
+      266  up   p1.start
+      268  down p1.start
+      270  up   p1.start
+      272  down p1.start
+      274  up   p1.start
+      276  down p1.start
+      278  up   p1.start
+      280  down p1.start
+      282  up   p1.start
+      284  down p1.start
+      286  up   p1.start
+      288  down p1.start
+      290  up   p1.start
+      292  down p1.start
+      294  up   p1.start
+      296  down p1.start
+      298  up   p1.start
+      300  down p1.start
+      302  up   p1.start
+      304  down p1.start
+      306  up   p1.start
+      308  down p1.start
+      310  up   p1.start
+      312  down p1.start
+      314  up   p1.start
+      316  down p1.start
+      318  up   p1.start
+      320  down p1.start
+      322  up   p1.start
+      324  down p1.start
+      326  up   p1.start
+      328  down p1.start
+      330  up   p1.start
+      332  down p1.start
+      334  up   p1.start
+      336  down p1.start
+      338  up   p1.start
+      340  down p1.start
+      342  up   p1.start
+      344  down p1.start
+      346  up   p1.start
+      348  down p1.start
+      350  up   p1.start
+      352  down p1.start
+      354  up   p1.start
+      356  down p1.start
+      358  up   p1.start
+      360  down p1.start
+      362  up   p1.start
+      364  down p1.start
+      366  up   p1.start
+      368  down p1.start
+      370  up   p1.start
+      372  down p1.start
+      374  up   p1.start
+      376  down p1.start
+      378  up   p1.start
+
+  - name: control
+    anchor:
+      kind: colour
+      colour: { red: 96, green: 100, blue: 232 }
+      max_difference: 8
+      region: { x: 0, y: 170, width: 256, height: 42 }
+      count: 800
+    frames: 1
