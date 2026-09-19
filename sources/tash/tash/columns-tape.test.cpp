@@ -1,5 +1,6 @@
 #include "tash/perception/frame-hash.hpp"
 #include "tash/python/sampler-watches.hpp"
+#include "tash/session/rom-file.hpp"
 #include "tash/session/session.hpp"
 #include "tash/tape/player.hpp"
 #include "tash/tape/tape.hpp"
@@ -159,7 +160,7 @@ TEST(ColumnsTape, TheTapeChecksWithoutARom)
 
 TEST(ColumnsTape, PlaysFromPowerOnToTheFirstColumn)
 {
-  if (!std::filesystem::exists(Columns()))
+  if (!tash::session::CartridgePresent(Columns()))
     GTEST_SKIP() << "no cartridge at " << Columns();
 
   Played const done{ Play() };
@@ -179,7 +180,7 @@ TEST(ColumnsTape, PlaysFromPowerOnToTheFirstColumn)
 
 TEST(ColumnsTape, TwoPlaysOfTheTapeHashTheSame)
 {
-  if (!std::filesystem::exists(Columns()))
+  if (!tash::session::CartridgePresent(Columns()))
     GTEST_SKIP() << "no cartridge at " << Columns();
 
   Played const first{ Play() };

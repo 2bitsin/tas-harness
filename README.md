@@ -61,7 +61,15 @@ is where a machine's own cartridge library goes — put it there or symlink it
 — and the example profiles name their game under it, for instance
 `roms/Genesis/Columns (USA, Europe).zip`. `roms/` is gitignored, because the
 cartridges the examples use are commercial software nobody may redistribute.
-The tests that need one skip themselves when it is absent.
+
+A release snapshot ships `roms/Genesis/` with a zero-byte placeholder at each
+of the seven paths the examples name, so the file a profile wants is in front
+of you: put your own dump over the placeholder of the same name, and keep the
+name. A zero-byte file counts as no cartridge at all — the loader refuses it
+with *drop the real cartridge over it* rather than complaining about a broken
+zip, and the tests that need a cartridge skip themselves. The directory is
+never committed: `roms/` is gitignored, and the placeholders carry no bytes of
+anybody's game.
 
 The one exception is `examples/homebrew/zsenilia.bin`, a 256 KiB Mega Drive
 demo under LGPL-3.0 that is committed with its licence beside it, so the
@@ -124,6 +132,13 @@ can be asked to do.
 | `scooby` | Scooby-Doo Mystery | the room graph, the script VM, a route |
 
 ## Release notes
+
+**0.1.1 — the cartridges have a place.** The tree ships the seven paths its
+examples name under `roms/` as empty placeholder files; a real cartridge is
+dropped over one and never committed. A zero-byte cartridge counts as
+absent everywhere a test or the loader looks, with a message that says so.
+The two example Python suites that resolved their cartridge against the
+wrong directory, and so had skipped on every machine, now run.
 
 **0.1.0 — the first public release.** The harness as it stands: libretro
 sessions, tapes with anchors, the Python scenario API, memory watches and

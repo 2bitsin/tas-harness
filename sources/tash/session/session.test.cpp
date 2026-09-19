@@ -1,4 +1,5 @@
 #include "tash/perception/frame-hash.hpp"
+#include "tash/session/rom-file.hpp"
 #include "tash/session/session.hpp"
 #include "tash/trace/reader.hpp"
 #include "tash/trace/record.hpp"
@@ -272,7 +273,7 @@ TEST(Session, AStateTakenAtThreeHundredReplaysTheSameSixHundredth)
 
 TEST(Session, ColumnsRunsFromItsZip)
 {
-  if (!std::filesystem::exists(Columns()))
+  if (!tash::session::CartridgePresent(Columns()))
     GTEST_SKIP() << "no cartridge at " << Columns();
 
   auto const session{ Opened(Columns()) };
@@ -287,7 +288,7 @@ TEST(Session, ColumnsRunsFromItsZip)
 
 TEST(Session, TwoRunsOfColumnsHashTheSame)
 {
-  if (!std::filesystem::exists(Columns()))
+  if (!tash::session::CartridgePresent(Columns()))
     GTEST_SKIP() << "no cartridge at " << Columns();
 
   std::vector<std::uint64_t> first;
@@ -303,7 +304,7 @@ TEST(Session, TwoRunsOfColumnsHashTheSame)
 
 TEST(Session, ColumnsReplaysFromAStateTakenAtThreeHundred)
 {
-  if (!std::filesystem::exists(Columns()))
+  if (!tash::session::CartridgePresent(Columns()))
     GTEST_SKIP() << "no cartridge at " << Columns();
 
   auto const session{ Opened(Columns()) };

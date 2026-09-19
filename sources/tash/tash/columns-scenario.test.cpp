@@ -1,6 +1,7 @@
 #include "tash/python/sampler-watches.hpp"
 #include "tash/recorder/bundle.hpp"
 #include "tash/recorder/verdicts-writer.hpp"
+#include "tash/session/rom-file.hpp"
 #include "tash/session/session.hpp"
 #include "tash/tash/profile.hpp"
 #include "tash/tash/scenario-runner.hpp"
@@ -143,7 +144,7 @@ namespace
 
 TEST(ColumnsScenario, EveryVerdictLandsAndNoneFails)
 {
-  if (!std::filesystem::exists(Columns()))
+  if (!tash::session::CartridgePresent(Columns()))
     GTEST_SKIP() << "no cartridge at " << Columns();
 
   auto const scratch{ tash::utilities::ScratchAreaOf("columns-scenario") };

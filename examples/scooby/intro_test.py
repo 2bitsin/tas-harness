@@ -2,7 +2,6 @@
 
 import csv
 import os
-import pathlib
 import struct
 import subprocess
 import sys
@@ -12,12 +11,17 @@ import pytest
 import intro
 
 
+def _cartridge_present(rom):
+    """A zero-byte file is the published placeholder, not a cartridge."""
+    return rom.is_file() and rom.stat().st_size > 0
+
+
 @pytest.mark.parametrize("scenario", ("hotel", "carnival"))
 def test_intro_capture(tmp_path, scenario):
-    rom = next(line.split(":", 1)[1].strip()
-               for line in intro.PROFILE.read_text().splitlines()
-               if line.startswith("rom:"))
-    if not pathlib.Path(rom).exists():
+    rom = intro.ROOT / next(line.split(":", 1)[1].strip()
+                            for line in intro.PROFILE.read_text().splitlines()
+                            if line.startswith("rom:"))
+    if not _cartridge_present(rom):
         pytest.skip(f"the scooby rom is not at {rom}")
     if intro.binary() is None:
         pytest.skip("this tree holds no built tash")

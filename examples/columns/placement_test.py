@@ -185,11 +185,16 @@ def _drive(run, level):
 
 
 def _rom():
-    """The ROM the profile names."""
+    """The cartridge the profile names, under the root tash runs from."""
     for line in PROFILE.read_text(encoding="utf-8").splitlines():
         if line.startswith("rom:"):
-            return pathlib.Path(line.split(":", 1)[1].strip())
+            return ROOT / line.split(":", 1)[1].strip()
     return None
+
+
+def _cartridge_present(rom):
+    """A zero-byte file is the published placeholder, not a cartridge."""
+    return rom.is_file() and rom.stat().st_size > 0
 
 
 def _binary():
@@ -210,12 +215,12 @@ def _placed_at(level):
     rom = _rom()
     if binary is None:
         pytest.skip("this tree holds no built tash")
-    if rom is None or not rom.exists():
+    if rom is None or not _cartridge_present(rom):
         pytest.skip(f"the columns rom is not at {rom}")
     done = subprocess.run(
         [str(binary), "run", "--profile", str(PROFILE),
          "--scenario", str(pathlib.Path(__file__).resolve())],
-        capture_output=True, text=True, cwd=HERE, timeout=RUN_SECONDS,
+        capture_output=True, text=True, cwd=ROOT, timeout=RUN_SECONDS,
         env=dict(os.environ, PYTHONPATH=str(HERE),
                  **{LEVEL_VARIABLE: str(level)}), check=False)
     assert done.returncode == 0, done.stdout + done.stderr

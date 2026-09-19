@@ -9,6 +9,7 @@
 #include <fstream>
 #include <string>
 #include <string_view>
+#include <system_error>
 
 namespace tash::session::detail::rom_file
 {
@@ -65,16 +66,27 @@ namespace tash::session::detail::rom_file
     }
   }
 
+  auto CartridgePresent(std::filesystem::path const& rom) -> bool
+  {
+    std::error_code failed;
+    if (!std::filesystem::is_regular_file(rom, failed))
+      return false;
+    std::uintmax_t const bytes{ std::filesystem::file_size(rom, failed) };
+    return !failed && bytes > 0;
+  }
+
   auto PreparedRom(std::filesystem::path const& rom,
                    std::filesystem::path const& scratch)
     -> Result<std::filesystem::path>
   {
+    if (!std::filesystem::is_regular_file(rom))
+      return Refused("no ROM at {}", rom.string());
+    if (!CartridgePresent(rom))
+      return Refused("{} is a placeholder; drop the real cartridge over it",
+                     rom.string());
+
     if (Lowered(rom.extension().string()) != ".zip")
-    {
-      if (!std::filesystem::is_regular_file(rom))
-        return Refused("no ROM at {}", rom.string());
       return rom;
-    }
 
     int failure{ 0 };
     zip_t* const archive{ zip_open(rom.c_str(), ZIP_RDONLY, &failure) };
